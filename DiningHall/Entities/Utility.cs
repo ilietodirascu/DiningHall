@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,9 +11,9 @@ namespace DiningHall.Entities
     {
         public static Random Random { get; set; } = new();
         public static List<Order> Orders { get; set; } = new();
-        public static List<Order> FinishedOrders { get; set; } = new();
+        public static ConcurrentQueue<Order> FinishedOrders { get; set; } = new();
         public static HttpClient Client { get; set; } = new();
-        private static Object Lock = new object();
+        public static Object Lock = new object();
         public static readonly Food[] Menu = new Food[]
        {
             new Food{Id = 1,Name = "Pizza", PreparationTime = 20, Complexity = 2, CookingAppratus = "Oven"},

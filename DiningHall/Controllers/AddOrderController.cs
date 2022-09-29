@@ -14,7 +14,7 @@ namespace DiningHall.Controllers
         [HttpPost]
         public IActionResult AddOrder(Order order)
         {
-            Utility.FinishedOrders.Add(order);
+            Utility.FinishedOrders.Enqueue(order);
             return Ok();
         }
     }

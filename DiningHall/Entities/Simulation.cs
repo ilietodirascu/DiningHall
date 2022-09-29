@@ -11,8 +11,21 @@ namespace DiningHall.Entities
 {
     public class Simulation
     {
-        private List<Table> _tables;
-        public List<Table> Tables
+        private static List<Table> _tables;
+        private List<Waiter> _waiters;
+        public List<Waiter> Waiters
+        {
+            get { return _waiters; }
+            set
+            {
+                _waiters = value;
+                for (int i = 0; i < _tables.Count / 2; i++)
+                {
+                    _waiters.Add(new Waiter());
+                }
+            }
+        }
+        public static List<Table> Tables
         {
             get { return _tables; }
             set
@@ -27,37 +40,21 @@ namespace DiningHall.Entities
         public Simulation(int nrOfTables)
         {
             Tables = new Table[nrOfTables].ToList();
+            Waiters = new();
         }
         public void RunSimulation()
         {
             Utility.Client.GetAsync("http://host.docker.internal:60000/StartSimulation");
-            Tables.ForEach(x =>
+            List<Thread> waiterThreads = new();
+            foreach (var waiter in Waiters)
             {
-                Utility.Orders.Add(x.GenerateOrder());
-            });
-            List<Thread> tableThreads = new();
-            
-            for (int i = 0; i < 3; i++)
-            {
-                tableThreads.Add(new Thread(() =>
+                waiterThreads.Add(new Thread(() =>
                 {
-                    while (Utility.Orders.Any())
-                    {
-                        var orders = new List<Order>(Utility.Orders);
-                        var order = Utility.GetOrder();
-                        if (order is null) return;
-                        Thread.Sleep(Utility.GetRandomNumber(2, 5) * 1000);
-                        order.SendOrder();
-                        //Task.Delay(Utility.GetRandomNumber(2, 5) * 1000).ContinueWith(_ =>
-                        //{
-                        //    var order = Utility.GetOrder();
-                        //    if(order is null)return;
-                        //    order.SendOrder();
-                        //});
-                    }
+                    waiter.WaiterJob();
                 }));
             }
-            tableThreads.ForEach(x => x.Start());
+            waiterThreads.ForEach(x => x.Start());
         }
+
     }
 }
