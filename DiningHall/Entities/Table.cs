@@ -9,9 +9,11 @@ namespace DiningHall.Entities
     {
         public int Number { get; set; }
         private Order _order { get; set; }
+        public bool IsEmpty { get; set; } = true;
         public Table(int number)
         {
             Number = number;
+            WaitToFill();
         }
         public Order GenerateOrder()
         {
@@ -25,6 +27,15 @@ namespace DiningHall.Entities
         public void ResetOrder()
         {
             _order = null;
+            IsEmpty = true;
+            WaitToFill();
+        }
+        public void WaitToFill()
+        {
+            Task.Delay(Utility.GetRandomNumber(5, 10) * 1000).ContinueWith(_ =>
+            {
+                IsEmpty = false;
+            });
         }
     }
 }
