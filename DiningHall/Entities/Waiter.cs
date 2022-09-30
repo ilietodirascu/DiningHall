@@ -24,7 +24,7 @@ namespace DiningHall.Entities
                 Thread.Sleep(Utility.GetRandomNumber(2, 5) * 250);
                 lock (Utility.Lock)
                 {
-                    var tablesNoOrder = Simulation.Tables.Where(x => x.GetOrder() is null).ToList();
+                    var tablesNoOrder = Simulation.Tables.Where(x => x.GetOrder() is null && !x.IsEmpty).ToList();//tables that haven't oredered.
                     if (tablesNoOrder.Count >= Utility.FinishedOrders.Count && tablesNoOrder.Count > 0)
                     {
 

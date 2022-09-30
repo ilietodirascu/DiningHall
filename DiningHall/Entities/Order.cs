@@ -35,7 +35,7 @@ namespace DiningHall.Entities
             }
             return items;
         }
-        private int GetMaxWait(int[] items)
+        private static int GetMaxWait(int[] items)
         {
             int maxWait = 0;
             for (int i = 0; i < items.Length; i++)
