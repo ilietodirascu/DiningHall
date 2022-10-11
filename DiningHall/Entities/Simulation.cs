@@ -44,7 +44,7 @@ namespace DiningHall.Entities
         }
         public void RunSimulation()
         {
-            Utility.Client.GetAsync("http://localhost:60000/StartSimulation");
+            Utility.Client.GetAsync("http://host.docker.internal:60000/StartSimulation");
             List<Thread> waiterThreads = new();
             foreach (var waiter in Waiters)
             {
