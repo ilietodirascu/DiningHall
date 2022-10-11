@@ -11,16 +11,15 @@ namespace DiningHall.Entities
         private int _id;
         public int Id { get { return _id; } set { IdNum++; _id = value; } }
         public int[] Items { get; set; }
-        public int Priority { get; set; }
+        public float Priority { get; set; }
         public int MaxWait { get; set; }
         public Table Table { get; set; }
         public DateTimeOffset TimeOfCreation { get; set; }
 
-        public Order( int priority, Table table, DateTimeOffset timeOfCreation)
+        public Order( Table table, DateTimeOffset timeOfCreation)
         {
             Id = IdNum;
             Items = GenerateItems();
-            Priority = priority;
             MaxWait = GetMaxWait(Items);
             Table = table;
             TimeOfCreation = timeOfCreation;
@@ -33,6 +32,9 @@ namespace DiningHall.Entities
             {
                 items[i] = Utility.GetRandomNumber(1, 14);
             }
+            var itemPrio = new List<int>();
+            items.ToList().ForEach(x => itemPrio.Add(Utility.Menu.First(y => y.Id == x).Complexity));
+            Priority = (float)(5.0 / itemPrio.Average());
             return items;
         }
         private static int GetMaxWait(int[] items)
