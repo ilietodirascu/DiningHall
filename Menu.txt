@@ -1,0 +1,23 @@
+[
+{
+   Id=1,
+   Name="Pizza",
+   PreparationTime = 20,
+   Complexity = 2,
+   CookingApparatus = "Oven"
+},
+{
+   Id=2,
+   Name="Salad",
+   PreparationTime = 10,
+   Complexity = 1,
+   CookingApparatus=null
+},
+{
+   Id=3,
+   Name="Zeama",
+   PreparationTime = 7,
+   Complexity = 1,
+   CookingApparatus ="Stove"
+}
+]

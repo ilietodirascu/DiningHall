@@ -17,7 +17,7 @@ namespace DiningHall.Entities
         }
         public Order GenerateOrder()
         {
-            _order = _order ??= new Order(Utility.GetRandomNumber(1,5), this, new DateTimeOffset(DateTime.Now));
+            _order = _order ??= new Order(this, new DateTimeOffset(DateTime.Now));
             return _order;
         }
         public Order GetOrder()
