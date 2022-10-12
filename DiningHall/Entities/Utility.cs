@@ -21,7 +21,7 @@ namespace DiningHall.Entities
         public static Food[] Menu { get; set; }
         static Utility()
         {
-            using StreamReader u = new(@"../menu.json");
+            using StreamReader u = new(@"menu.json");
             string foods = u.ReadToEnd();
             Menu = JsonConvert.DeserializeObject<Food[]>(foods);
         }
