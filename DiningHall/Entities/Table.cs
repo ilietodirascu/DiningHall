@@ -32,7 +32,7 @@ namespace DiningHall.Entities
         }
         public void WaitToFill()
         {
-            Task.Delay(Utility.GetRandomNumber(5, 10) * 1000).ContinueWith(_ =>
+            Task.Delay(Utility.GetRandomNumber(5, 10) * 250).ContinueWith(_ =>
             {
                 IsEmpty = false;
             });
