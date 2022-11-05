@@ -19,6 +19,7 @@ namespace DiningHall.Entities
         public static Object Lock = new object();
         private static Object _randomLock = new object();
         public static Food[] Menu { get; set; }
+        public static Dictionary<int, int> Distribution = new();
         static Utility()
         {
             using StreamReader u = new(@"menu.json");
@@ -46,6 +47,26 @@ namespace DiningHall.Entities
             var result = new List<string>();
             order.Items.ToList().ForEach(x => result.Add(Menu.Where(y => y.Id == x).Select(z => z.Name).First().ToString()));
             return String.Join(",", result);
+        }
+        public static void AddToDictionary(Order order)
+        {
+            if (Distribution.ContainsKey(order.Table.Number))
+            {
+                Distribution[order.Table.Number]++;
+            }
+            else
+            {
+                Distribution.Add(order.Table.Number, 1);
+            }
+        }
+        public static string GetDistribution()
+        {
+            string dist = "";
+            foreach (var kvp in Distribution)
+            {
+                dist += $"Table {kvp.Key}:{kvp.Value}\n ";
+            }
+            return dist;
         }
         public static double GetRating(int cookTime, int maxWait)
         {

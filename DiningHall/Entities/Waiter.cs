@@ -28,7 +28,7 @@ namespace DiningHall.Entities
                     if (tablesNoOrder.Count >= Utility.FinishedOrders.Count && tablesNoOrder.Count > 0)
                     {
 
-                        var order = tablesNoOrder.First().GenerateOrder();
+                        var order = tablesNoOrder[Utility.GetRandomNumber(0,tablesNoOrder.Count)].GenerateOrder();
                         order.SendOrder(this);
                     }
                     else
