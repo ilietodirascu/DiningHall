@@ -27,7 +27,7 @@ namespace DiningHall.Entities
 
         private int[] GenerateItems()
         {
-            var items = new int[Utility.GetRandomNumber(1, 5)];
+            var items = new int[Utility.GetRandomNumber(1, 11)];
             for (int i = 0; i < items.Length; i++)
             {
                 items[i] = Utility.GetRandomNumber(1, 14);

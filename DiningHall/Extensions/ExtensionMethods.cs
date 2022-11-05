@@ -12,18 +12,19 @@ namespace DiningHall.Extensions
     {
         public static void SendOrder(this Order order,Waiter waiter)
         {
-            Utility.Client.PostAsJsonAsync("http://host.docker.internal:60500/LogInfo", new { Message = $"Hello, Table Nr:{order.Table.Number}. My name is {waiter.Name}. Let me send " +
+            Utility.Client.PostAsJsonAsync("http://localhost:60500/LogInfo", new { Message = $"Hello, Table Nr:{order.Table.Number}. My name is {waiter.Name}. Let me send " +
                 $"your order of {Utility.GetItems(order)} Priority:{order.Priority}" });
-            Utility.Client.PostAsJsonAsync("http://host.docker.internal:60000/AddOrder", order);
+            Utility.Client.PostAsJsonAsync("http://localhost:60000/AddOrder", order);
         }
         public static void ReturnOrder(this Order order, Waiter waiter)
         {
             var cookTime = (int)Math.Ceiling(DateTimeOffset.Now.Subtract(order.TimeOfCreation).TotalSeconds) * 100;
             Utility.Ratings.Add(Utility.GetRating(cookTime, order.MaxWait * 100));
-            Utility.Client.PostAsJsonAsync("http://host.docker.internal:60500/LogInfo", new
+            Utility.AddToDictionary(order);
+            Utility.Client.PostAsJsonAsync("http://localhost:60500/LogInfo", new
             {
                 Message = $"{waiter.Name}: Sorry fo the wait. Order for Table Nr:{order.Table.Number} of {Utility.GetItems(order)} is finished. Max Wait: {order.MaxWait * 100} " +
-                $"It took {cookTime}\nRestaurant rating:{Utility.Ratings.Average()}"
+                $"It took {cookTime}\nRestaurant rating:{Utility.Ratings.Average()}\nDistribution:{Utility.GetDistribution()}"
             });
             Utility.FinishedOrders.TryDequeue(out _);
         }
